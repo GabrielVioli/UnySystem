@@ -12,7 +12,8 @@ class ProdutoController extends Controller
      */
     public function index()
     {
-        return 'index';
+        $produtos = Produto::all();
+        return view('index', ['produtos' => $produtos]);
     }
 
     /**
@@ -20,7 +21,7 @@ class ProdutoController extends Controller
      */
     public function create()
     {
-        return view('create_produto');
+        return view('auth.create_produto');
     }
 
     /**
@@ -28,13 +29,15 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        $produto = Produto::create([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'price' => $request->input('price'),
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
         ]);
 
-        return response()->json($produto, 201);
+        Produto::create($validated);
+
+        return redirect('/')->with('success', 'Produto criado com sucesso!');
     }
 
     /**
@@ -49,6 +52,7 @@ class ProdutoController extends Controller
                 ], 404);
         }
         return response()->json($produto, 200);
+
     }
 
     /**
@@ -63,7 +67,7 @@ class ProdutoController extends Controller
                 'message' => 'Produto not found'
                 ], 404);
         }
-        return view('edit_produto', ['produto' => $produto]);
+        return view('auth.edit_produto', ['produto' => $produto]);
     }
 
     /**
@@ -101,13 +105,15 @@ class ProdutoController extends Controller
 
         if($produto) {
             $produto->delete();
-            return response()->json([
-                'message' => 'Produto deletado com sucesso.'
-            ]);
+            return redirect('/')->with('produto deletado com sucesso');
+
         } else {
-            return response()->json([
-                'message' => 'Erro ao deletar o produto.'
-            ], 404);
+            return redirect('/')->with('erro ao deletar produto');
         }
+    }
+
+    public function destroy_all() {
+        Produto::truncate();
+        return redirect('/');
     }
 }
