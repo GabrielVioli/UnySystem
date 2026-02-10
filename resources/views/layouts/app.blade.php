@@ -11,13 +11,12 @@
     <nav class="bg-blue-600 p-4 shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
             <a href="/" class="text-white text-2xl font-bold hover:text-gray-200">UniSystem</a>
-            
+
             <div class="flex items-center space-x-4">
-                @auth
-                    <span class="text-blue-200 text-sm">Olá, {{ Auth::user()->name }}</span>
                     <a href="/produto/create" class="text-white hover:bg-blue-700 px-3 py-2 rounded transition">Novo Produto</a>
-                    
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                @auth
+
+                <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded transition text-sm">Sair</button>
                     </form>

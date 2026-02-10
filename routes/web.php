@@ -10,7 +10,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::match(['get', 'delete'], '/produto/{id}/delete', [ProdutoController::class, 'destroy']);
 
-        
+
     Route::get('/produto/{id}/edit', [ProdutoController::class, 'edit']);
     Route::put('/produto/{id}/update', [ProdutoController::class, 'update']);
 
@@ -26,6 +26,7 @@ Route::get('/login', [UserController::class, 'showLoginForm']);
 Route::post('/login/submit', [UserController::class, 'login']);
 
 Route::get("/", [ProdutoController::class, 'index']);
-Route::get('/produto/{id}', [ProdutoController::class, 'show']);
+Route::get('/produto/{id?}', [ProdutoController::class, 'show']);
 
+Route::get('/search', [ProdutoController::class, 'search']);
 

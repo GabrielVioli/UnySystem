@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use App\Models\Produto;
 
@@ -13,6 +14,7 @@ class ProdutoController extends Controller
     public function index()
     {
         $produtos = Produto::all();
+
         return view('index', ['produtos' => $produtos]);
     }
 
@@ -35,7 +37,7 @@ class ProdutoController extends Controller
             'price' => 'required|numeric',
         ]);
 
-        Produto::create($validated);
+        auth()->user()->produtos()->create($validated);
 
         return redirect('/')->with('success', 'Produto criado com sucesso!');
     }
@@ -46,12 +48,12 @@ class ProdutoController extends Controller
     public function show(string $id)
     {
         $produto = Produto::find($id);
-        if(!$produto) {
-            return response()->json([
-                'message' => 'Produto not found'
-                ], 404);
+
+        if(!$produto){
+            return view('not_exists');
         }
-        return response()->json($produto, 200);
+
+        return view('details', compact('produto'));
 
     }
 
@@ -77,23 +79,19 @@ class ProdutoController extends Controller
     {
         $produto = Produto::find($id);
 
-        if($produto) {
+        if($produto && $produto->user_id == auth()->id()) {
             $produto->name = $request->input('name');
             $produto->description = $request->input('description');
             $produto->price = $request->input('price');
             $produto->save();
 
-            return response()->json([
-                'message' => 'Produto atualizado com sucesso.',
-                'produto' => $produto
-            ]);
+            return redirect('/')->with('sucess', "produto editado com sucesso");
+
         } else {
-            return response()->json([
-                'message' => 'Erro ao atualizar o produto.'
-            ], 404);
+            return redirect('/')->with('denied', "error");
         }
 
-       
+
     }
 
     /**
@@ -103,7 +101,7 @@ class ProdutoController extends Controller
     {
         $produto = Produto::find($id);
 
-        if($produto) {
+        if($produto && $produto->user_id === auth()->id()) {
             $produto->delete();
             return redirect('/')->with('produto deletado com sucesso');
 
@@ -115,5 +113,17 @@ class ProdutoController extends Controller
     public function destroy_all() {
         Produto::truncate();
         return redirect('/');
+    }
+
+    public function search(Request $request) {
+        $search = $request->input('produto_search');
+
+        $produtos = Produto::where('name', 'like', '%'.$search.'%')->get();
+
+        return view('index', compact('produtos'));
+    }
+
+    public function gateway() {
+
     }
 }

@@ -19,12 +19,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if($this->app->environment('local')) {
-        // Força HTTPS
-        \Illuminate\Support\Facades\URL::forceScheme('https');
-        
-        // AQUI É O PULO DO GATO: Forçamos a raiz exata, SEM a porta no final.
-        \Illuminate\Support\Facades\URL::forceRootUrl('https://legendary-space-doodle-6pqv7x659vx2qr9-8000.app.github.dev');
-    }
     }
 }
