@@ -9,7 +9,7 @@
                         <h2 class="text-2xl font-bold text-gray-800">Editar Produto</h2>
                         <p class="text-sm text-gray-500">Editando: {{ $produto->name }}</p>
                     </div>
-                    <a href="{{ url('/produtos') }}" class="text-sm text-blue-500 hover:underline">Voltar</a>
+                    <a href="{{ url('/') }}" class="text-sm text-blue-500 hover:underline">Voltar</a>
                 </div>
 
                 <form action="/produto/{{ $produto->id }}/update" method="POST">

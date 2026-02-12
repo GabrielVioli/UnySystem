@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Produto;
+use App\Models\User;
 
 class ProdutoController extends Controller
 {
@@ -111,8 +112,16 @@ class ProdutoController extends Controller
     }
 
     public function destroy_all() {
-        Produto::truncate();
-        return redirect('/');
+
+        $user = Auth::user();
+
+        if(Auth::check()) {
+            $user->produtos()->delete();
+            return redirect('/')->with("sucess", "Sucesso");
+
+        }
+
+        return redirect('/')->with('denied', "erro");
     }
 
     public function search(Request $request) {

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Produto;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -72,7 +74,6 @@ class UserController extends Controller
 
     public function profile(request $request, $id = null) {
 
-
         if($id) {
             $user = User::findOrFail($id);
         } else {
@@ -82,9 +83,47 @@ class UserController extends Controller
 
             $user=Auth::user();
         }
+        $user = Auth::user();
+        $produto = $user->produtos;
+
+        return view('auth.profile', compact('user', 'produto'));
+    }
+
+    public function editProfile() {
+        $user = Auth::user();
+        
+        return view('auth.editUser', compact('user'));
+    }
+
+    public function updateProfile(Request $request) {
+
+    $user = Auth::user();
+
+    if(!Auth::check()) {
+        return redirect()->route('login');
+    }
+
+        $validatedData = $request->validate ([
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|unique:users, email'.$user->id,
+            'password' => "nullable|string|min:6"
+        ]);
+
+        if($request->password) {
+            $validatedData['password'] = Hash::make($validatedData['password']);
+        } else {
+            unset($validatedData['password']);
+        }
+
+
+        if(!$user) {
+            return redirect()->back();
+        }
+
+        $user->update($validatedData);
 
 
 
-        return view('auth.profile', compact('user'));
+        return redirect()->route('profile')->with('sucess', 'Atualizado com sucesso');
     }
 }

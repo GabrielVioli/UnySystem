@@ -19,13 +19,6 @@
 
             @auth
                 <div class="flex items-center space-x-3">
-                    <form action="/produto/delete-all" method="POST" onsubmit="return confirm('TEM CERTEZA? Isso apagará TODOS os produtos do banco de dados!');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition shadow-md flex items-center gap-2">
-                            🗑️ <span class="hidden md:inline">Excluir Tudo</span>
-                        </button>
-                    </form>
 
                     <a href="/produto/create" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition shadow-md whitespace-nowrap">
                         + Adicionar
