@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # Seu container Laravel
   app:
     build:
       context: .
@@ -11,24 +10,21 @@ services:
     restart: unless-stopped
     working_dir: /var/www/html
     ports:
-      - "8000:80" # Acessar no navegador via porta 8000
+      - "8081:80"
     volumes:
-      - ./:/var/www/html # Sincroniza seus arquivos com o container
+      - ./:/var/www/html
     depends_on:
       - db
     networks:
       - laravel-network
 
-  # Seu container de Banco de Dados
   db:
-    image: mariadb:10.6
-    container_name: mariadb_db
-    restart: unless-stopped
+    image: mysql
+    restart: always
     environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_ROOT_PASSWORD: 6145
+      MYSQL_DATABASE: crudProdutos
+      MYSQL_USER: root
     ports:
       - "3306:3306"
     volumes:
@@ -36,7 +32,6 @@ services:
     networks:
       - laravel-network
 
-# Configurações de Rede e Volumes
 networks:
   laravel-network:
     driver: bridge

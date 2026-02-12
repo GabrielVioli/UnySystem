@@ -15,7 +15,7 @@
             <div class="flex items-center space-x-4">
                     <a href="/produto/create" class="text-white hover:bg-blue-700 px-3 py-2 rounded transition">Novo Produto</a>
                 @auth
-
+                    <p class="text-white hover:bg-blue-700 px-3 py-2 rounded transition"><a href="{{ route('profile') }}">Perfil</a></p>
                 <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded transition text-sm">Sair</button>

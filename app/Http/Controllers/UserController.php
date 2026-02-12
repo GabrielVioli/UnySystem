@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash; 
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         return view('register');
     }
-  
+
     public function register(Request $request)
     {
         $validatedData = $request->validate([
@@ -55,18 +55,36 @@ class UserController extends Controller
         return back()->withErrors([
             'email' => 'as credenciais fornecidas nao correspondem ao registro'
         ])->onlyInput('email');
-        
+
     }
 
 
 
     public function logout(Request $request) {
     Auth::logout();
- 
+
     $request->session()->invalidate();
- 
+
     $request->session()->regenerateToken();
- 
+
     return redirect('/login');
+    }
+
+    public function profile(request $request, $id = null) {
+
+
+        if($id) {
+            $user = User::findOrFail($id);
+        } else {
+            if(!Auth::check()) {
+                return redirect(route('login'));
+            }
+
+            $user=Auth::user();
+        }
+
+
+
+        return view('auth.profile', compact('user'));
     }
 }

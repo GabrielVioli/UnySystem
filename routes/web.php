@@ -17,6 +17,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
     Route::delete('/produto/delete-all', [ProdutoController::class, 'destroy_all']);
+
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 });
 
 Route::get('/register', [UserController::class, 'showRegistrationForm']);
