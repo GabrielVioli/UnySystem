@@ -126,4 +126,22 @@ class UserController extends Controller
 
         return redirect()->route('profile')->with('sucess', 'Atualizado com sucesso');
     }
+
+    public function dashboard() {
+        $user = Auth::user();
+        $produtos = $user->produtos;
+
+        $lastProduct =$user->produtos()->latest()->first();
+        $firstProduct = $user->produtos()->first();
+
+        $qntProducts = $user->produtos()->count();
+
+        $totalSumProducts = $user->produtos()->sum('price');
+
+        return view('auth.dashboard', compact('lastProduct', 'firstProduct', 'qntProducts', 'totalSumProducts'));
+
+
+    
+
+    }
 }

@@ -22,12 +22,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/profile/edit', [UserController::class, 'editProfile'])->name('profile.edit');
     Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
+
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name("dashboard");
 });
 
-Route::get('/register', [UserController::class, 'showRegistrationForm']);
+Route::get('/register', [UserController::class, 'showRegistrationForm'])->name('showRegistrationForm');
 Route::post('/register/submit', [UserController::class, 'register']);
 
-Route::get('/login', [UserController::class, 'showLoginForm']);
+Route::get('/login', [UserController::class, 'showLoginForm'])->name('showLoginForm');
 Route::post('/login/submit', [UserController::class, 'login']);
 
 Route::get("/", [ProdutoController::class, 'index']);

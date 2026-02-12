@@ -36,12 +36,18 @@ class ProdutoController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('produtos', 'public');
+            $validated['image'] = $path;
+        }
 
         auth()->user()->produtos()->create($validated);
 
         return redirect('/')->with('success', 'Produto criado com sucesso!');
-    }
+    }   
 
     /**
      * Display the specified resource.
