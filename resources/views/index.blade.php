@@ -63,8 +63,8 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 group">
             <div class="relative h-28 bg-gray-100 overflow-hidden">
                 <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                     src="{{ $produto->image ? asset('storage/' . $produto->image) : 'https://ui-avatars.com/api/?name='.urlencode($produto->name).'&background=6366f1&color=fff&size=200' }}" 
-                     alt="{{ $produto->name }}">
+                    src="{{ $produto->image ? asset('storage/' . $produto->image) : 'https://ui-avatars.com/api/?name='.urlencode($produto->name).'&background=6366f1&color=fff&size=200' }}" 
+                    alt="{{ $produto->name }}">
                 <div class="absolute top-2 right-2">
                     <span class="bg-white/90 backdrop-blur-sm px-1.5 py-0.5 rounded-md text-[8px] font-bold uppercase text-gray-600 shadow-sm">
                         #{{ $produto->id }}

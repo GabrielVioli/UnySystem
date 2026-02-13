@@ -44,6 +44,7 @@ class ProdutoController extends Controller
             $validated['image'] = $path;
         }
 
+
         auth()->user()->produtos()->create($validated);
 
         return redirect('/')->with('success', 'Produto criado com sucesso!');
